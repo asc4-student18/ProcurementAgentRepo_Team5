@@ -1,0 +1,155 @@
+[
+  {
+    "vendor_id": "V-001",
+    "name": "Apex Office Supplies",
+    "category": "office_supplies",
+    "contract_status": "active",
+    "contract_id": "CTR-2024-0041",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-002",
+    "name": "BlueSky Cloud Solutions",
+    "category": "software_licenses",
+    "contract_status": "active",
+    "contract_id": "CTR-2024-0055",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-003",
+    "name": "Meridian Office Products",
+    "category": "office_supplies",
+    "contract_status": "active",
+    "contract_id": "CTR-2023-0198",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-004",
+    "name": "FastTrack Couriers",
+    "category": "courier_services",
+    "contract_status": "none",
+    "contract_id": "",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-005",
+    "name": "Pinnacle Hardware",
+    "category": "hardware",
+    "contract_status": "active",
+    "contract_id": "CTR-2025-0012",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-006",
+    "name": "Vertex Consulting Group",
+    "category": "professional_services",
+    "contract_status": "active",
+    "contract_id": "CTR-2024-0089",
+    "compliance_flag": true,
+    "compliance_notes": "Pending ethics review initiated 2025-11-03. Outcome expected Q1 2026."
+  },
+  {
+    "vendor_id": "V-007",
+    "name": "Skyline Facilities Services",
+    "category": "facilities",
+    "contract_status": "active",
+    "contract_id": "CTR-2024-0101",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-008",
+    "name": "TechNova Software",
+    "category": "software_licenses",
+    "contract_status": "active",
+    "contract_id": "CTR-2023-0304",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-009",
+    "name": "Redline Logistics",
+    "category": "logistics",
+    "contract_status": "none",
+    "contract_id": "",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-010",
+    "name": "Crestview Print and Media",
+    "category": "marketing_materials",
+    "contract_status": "expired",
+    "contract_id": "CTR-2023-0077",
+    "compliance_flag": false,
+    "compliance_notes": "Contract expired 2025-09-30. Renewal under review."
+  },
+  {
+    "vendor_id": "V-011",
+    "name": "Ironclad Security Systems",
+    "category": "security",
+    "contract_status": "active",
+    "contract_id": "CTR-2025-0033",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-012",
+    "name": "NovaPrint Solutions",
+    "category": "office_supplies",
+    "contract_status": "none",
+    "contract_id": "",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-013",
+    "name": "Delta Fleet Parts",
+    "category": "fleet_parts",
+    "contract_status": "active",
+    "contract_id": "CTR-2024-0210",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-014",
+    "name": "Globalink Staffing",
+    "category": "staffing",
+    "contract_status": "active",
+    "contract_id": "CTR-2025-0004",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-015",
+    "name": "Clearpath Training Solutions",
+    "category": "training",
+    "contract_status": "none",
+    "contract_id": "",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-016",
+    "name": "Orion Data Systems",
+    "category": "hardware",
+    "contract_status": "active",
+    "contract_id": "CTR-2024-0188",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  },
+  {
+    "vendor_id": "V-017",
+    "name": "Summit Catering Co.",
+    "category": "catering",
+    "contract_status": "none",
+    "contract_id": "",
+    "compliance_flag": false,
+    "compliance_notes": ""
+  }
+]

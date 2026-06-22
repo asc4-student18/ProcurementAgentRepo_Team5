@@ -1,0 +1,2 @@
+// OpenSpec specification files are generated during the lab sessions.
+// This directory will be populated as you work through the sessions.

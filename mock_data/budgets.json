@@ -1,0 +1,72 @@
+[
+  {
+    "cost_center_id": "CC-001",
+    "name": "Enterprise Technology",
+    "quarterly_budget": 500000.00,
+    "spent_to_date": 312450.00,
+    "remaining": 187550.00
+  },
+  {
+    "cost_center_id": "CC-002",
+    "name": "Ground Operations",
+    "quarterly_budget": 250000.00,
+    "spent_to_date": 198750.00,
+    "remaining": 51250.00
+  },
+  {
+    "cost_center_id": "CC-003",
+    "name": "Facilities Management",
+    "quarterly_budget": 150000.00,
+    "spent_to_date": 143100.00,
+    "remaining": 6900.00
+  },
+  {
+    "cost_center_id": "CC-004",
+    "name": "Supply Chain Analytics",
+    "quarterly_budget": 300000.00,
+    "spent_to_date": 89200.00,
+    "remaining": 210800.00
+  },
+  {
+    "cost_center_id": "CC-005",
+    "name": "HR and Workforce Development",
+    "quarterly_budget": 120000.00,
+    "spent_to_date": 114500.00,
+    "remaining": 5500.00
+  },
+  {
+    "cost_center_id": "CC-006",
+    "name": "Air Operations",
+    "quarterly_budget": 750000.00,
+    "spent_to_date": 401300.00,
+    "remaining": 348700.00
+  },
+  {
+    "cost_center_id": "CC-007",
+    "name": "Legal and Compliance",
+    "quarterly_budget": 200000.00,
+    "spent_to_date": 182000.00,
+    "remaining": 18000.00
+  },
+  {
+    "cost_center_id": "CC-008",
+    "name": "Customer Solutions",
+    "quarterly_budget": 180000.00,
+    "spent_to_date": 96400.00,
+    "remaining": 83600.00
+  },
+  {
+    "cost_center_id": "CC-009",
+    "name": "Fleet Maintenance",
+    "quarterly_budget": 400000.00,
+    "spent_to_date": 362100.00,
+    "remaining": 37900.00
+  },
+  {
+    "cost_center_id": "CC-010",
+    "name": "Marketing and Communications",
+    "quarterly_budget": 90000.00,
+    "spent_to_date": 81450.00,
+    "remaining": 8550.00
+  }
+]

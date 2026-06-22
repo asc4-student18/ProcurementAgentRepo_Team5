@@ -1,0 +1,67 @@
+[
+  {
+    "policy_id": "POL-001",
+    "name": "Single-Source Restriction",
+    "description": "Purchases over $25,000 in any category where an active contract already exists must use the contracted vendor. A request for a different vendor in that category is a policy violation.",
+    "threshold_amount": 25000.00,
+    "affected_categories": ["office_supplies", "software_licenses", "hardware", "facilities", "security", "fleet_parts", "staffing"],
+    "violation_severity": "high"
+  },
+  {
+    "policy_id": "POL-002",
+    "name": "Manager Approval Threshold",
+    "description": "Purchases between $10,000 and $49,999 require manager approval before processing. Requests in this range submitted without documented manager approval are non-compliant.",
+    "threshold_amount": 10000.00,
+    "upper_threshold": 49999.99,
+    "affected_categories": [],
+    "violation_severity": "medium"
+  },
+  {
+    "policy_id": "POL-003",
+    "name": "Director Approval Threshold",
+    "description": "Purchases of $50,000 and above require director-level approval. Requests in this range submitted without documented director approval are non-compliant and must be escalated.",
+    "threshold_amount": 50000.00,
+    "affected_categories": [],
+    "violation_severity": "high"
+  },
+  {
+    "policy_id": "POL-004",
+    "name": "Prohibited Category — Catering",
+    "description": "Catering and food service purchases are prohibited under the current corporate spend reduction initiative effective Q4 2025. All catering requests must be denied regardless of amount.",
+    "threshold_amount": 0.00,
+    "affected_categories": ["catering"],
+    "violation_severity": "high"
+  },
+  {
+    "policy_id": "POL-005",
+    "name": "Expired Contract Vendor",
+    "description": "Purchases from a vendor whose contract has expired may not proceed until the contract is renewed or a new vendor is selected. Requests referencing an expired-contract vendor must be denied.",
+    "threshold_amount": 0.00,
+    "affected_categories": [],
+    "violation_severity": "high"
+  },
+  {
+    "policy_id": "POL-006",
+    "name": "Compliance-Flagged Vendor Hold",
+    "description": "Purchases from any vendor with an active compliance flag must be escalated for review by the Legal and Compliance team before approval. No purchase from a flagged vendor may be approved directly.",
+    "threshold_amount": 0.00,
+    "affected_categories": [],
+    "violation_severity": "high"
+  },
+  {
+    "policy_id": "POL-007",
+    "name": "Staffing Vendor Single-Source",
+    "description": "All contingent staffing engagements must go through the enterprise staffing contract. Direct engagement of non-contracted staffing firms is prohibited for engagements exceeding 40 hours.",
+    "threshold_amount": 0.00,
+    "affected_categories": ["staffing"],
+    "violation_severity": "high"
+  },
+  {
+    "policy_id": "POL-008",
+    "name": "Budget Overage Prohibition",
+    "description": "No purchase request may be approved if it would cause the cost center's quarterly spend to exceed its approved quarterly budget. Requests that would exceed the remaining budget must be denied.",
+    "threshold_amount": 0.00,
+    "affected_categories": [],
+    "violation_severity": "high"
+  }
+]
