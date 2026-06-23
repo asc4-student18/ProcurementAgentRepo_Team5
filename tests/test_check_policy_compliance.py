@@ -15,8 +15,8 @@ def test_check_policy_compliance_evaluates_all_policies() -> None:
 
     result = check_policy_compliance(request)
 
-    assert len(result.evaluated_policy_ids) == 8
-    assert set(result.evaluated_policy_ids) == {
+    assert len(result["evaluated_policy_ids"]) == 8
+    assert set(result["evaluated_policy_ids"]) == {
         "POL-001",
         "POL-002",
         "POL-003",
@@ -42,13 +42,13 @@ def test_check_policy_compliance_returns_policy_001_and_002_violations() -> None
 
     result = check_policy_compliance(request)
 
-    violations = {violation.policy_id: violation for violation in result.violations}
+    violations = {violation["policy_id"]: violation for violation in result["violations"]}
 
     assert "POL-001" in violations
-    assert violations["POL-001"].forced_decision == "deny"
+    assert violations["POL-001"]["forced_decision"] == "deny"
 
     assert "POL-002" in violations
-    assert violations["POL-002"].forced_decision == "escalate"
+    assert violations["POL-002"]["forced_decision"] == "escalate"
 
 
 def test_check_policy_compliance_returns_policy_006_escalate() -> None:
@@ -65,11 +65,13 @@ def test_check_policy_compliance_returns_policy_006_escalate() -> None:
 
     result = check_policy_compliance(request)
 
-    policy_ids = [violation.policy_id for violation in result.violations]
+    policy_ids = [violation["policy_id"] for violation in result["violations"]]
     assert "POL-006" in policy_ids
 
-    pol_006 = next(violation for violation in result.violations if violation.policy_id == "POL-006")
-    assert pol_006.forced_decision == "escalate"
+    pol_006 = next(
+        violation for violation in result["violations"] if violation["policy_id"] == "POL-006"
+    )
+    assert pol_006["forced_decision"] == "escalate"
 
 
 def test_check_policy_compliance_returns_policy_008_deny() -> None:
@@ -86,9 +88,9 @@ def test_check_policy_compliance_returns_policy_008_deny() -> None:
 
     result = check_policy_compliance(request)
 
-    violations = {violation.policy_id: violation for violation in result.violations}
+    violations = {violation["policy_id"]: violation for violation in result["violations"]}
     assert "POL-008" in violations
-    assert violations["POL-008"].forced_decision == "deny"
+    assert violations["POL-008"]["forced_decision"] == "deny"
 
 
 def test_check_policy_compliance_violation_shape() -> None:
@@ -105,8 +107,8 @@ def test_check_policy_compliance_violation_shape() -> None:
 
     result = check_policy_compliance(request)
 
-    assert len(result.violations) >= 1
-    for violation in result.violations:
-        assert violation.policy_id.startswith("POL-")
-        assert violation.rule_violated
-        assert violation.forced_decision in {"deny", "escalate"}
+    assert len(result["violations"]) >= 1
+    for violation in result["violations"]:
+        assert violation["policy_id"].startswith("POL-")
+        assert violation["rule_violated"]
+        assert violation["forced_decision"] in {"deny", "escalate"}

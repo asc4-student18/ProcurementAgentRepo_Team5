@@ -8,10 +8,10 @@ def test_check_vendor_duplication_triggers_deny_above_threshold() -> None:
         total_amount=28500.0,
     )
 
-    assert result.has_active_contract_conflict is True
-    assert set(result.conflicting_vendor_ids) == {"V-001", "V-003"}
-    assert result.deny_triggered is True
-    assert result.threshold_amount == 25000.0
+    assert result["has_active_contract_conflict"] is True
+    assert set(result["conflicting_vendor_ids"]) == {"V-001", "V-003"}
+    assert result["deny_triggered"] is True
+    assert result["threshold_amount"] == 25000.0
 
 
 def test_check_vendor_duplication_no_deny_below_threshold() -> None:
@@ -21,8 +21,8 @@ def test_check_vendor_duplication_no_deny_below_threshold() -> None:
         total_amount=5000.0,
     )
 
-    assert result.has_active_contract_conflict is True
-    assert result.deny_triggered is False
+    assert result["has_active_contract_conflict"] is True
+    assert result["deny_triggered"] is False
 
 
 def test_check_vendor_duplication_contracted_vendor_no_deny() -> None:
@@ -32,9 +32,9 @@ def test_check_vendor_duplication_contracted_vendor_no_deny() -> None:
         total_amount=40000.0,
     )
 
-    assert result.has_active_contract_conflict is True
-    assert "V-003" in result.conflicting_vendor_ids
-    assert result.deny_triggered is False
+    assert result["has_active_contract_conflict"] is True
+    assert "V-003" in result["conflicting_vendor_ids"]
+    assert result["deny_triggered"] is False
 
 
 def test_check_vendor_duplication_no_conflict_category() -> None:
@@ -44,6 +44,6 @@ def test_check_vendor_duplication_no_conflict_category() -> None:
         total_amount=30000.0,
     )
 
-    assert result.has_active_contract_conflict is False
-    assert result.conflicting_vendor_ids == []
-    assert result.deny_triggered is False
+    assert result["has_active_contract_conflict"] is False
+    assert result["conflicting_vendor_ids"] == []
+    assert result["deny_triggered"] is False

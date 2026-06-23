@@ -43,8 +43,8 @@ def generate_recommendation(purchase_request: PurchaseRequest | dict) -> Procure
             purchase_category=request.category,
             total_amount=request.total_amount,
         )
-        rationale_points.append(f"Vendor check: {vendor_duplication.message}")
-        if vendor_duplication.deny_triggered:
+        rationale_points.append(f"Vendor check: {vendor_duplication['message']}")
+        if vendor_duplication["deny_triggered"]:
             deny_signals.append("POL-001 single-source restriction")
     except Exception as exc:
         escalate_signals.append("vendor duplication check failed")
@@ -53,17 +53,17 @@ def generate_recommendation(purchase_request: PurchaseRequest | dict) -> Procure
     # Evaluate policy violations and forced decisions.
     try:
         policy_result = check_policy_compliance(request.model_dump())
-        if policy_result.violations:
-            policies = ", ".join(v.policy_id for v in policy_result.violations)
+        if policy_result["violations"]:
+            policies = ", ".join(v["policy_id"] for v in policy_result["violations"])
             rationale_points.append(f"Policy check violations: {policies}")
         else:
             rationale_points.append("Policy check: no violations")
 
-        for violation in policy_result.violations:
-            if violation.forced_decision == "escalate":
-                escalate_signals.append(f"{violation.policy_id} policy escalation")
-            elif violation.forced_decision == "deny":
-                deny_signals.append(f"{violation.policy_id} policy denial")
+        for violation in policy_result["violations"]:
+            if violation["forced_decision"] == "escalate":
+                escalate_signals.append(f"{violation['policy_id']} policy escalation")
+            elif violation["forced_decision"] == "deny":
+                deny_signals.append(f"{violation['policy_id']} policy denial")
     except Exception as exc:
         escalate_signals.append("policy compliance check failed")
         rationale_points.append(f"Policy check error: {exc}")
@@ -73,11 +73,11 @@ def generate_recommendation(purchase_request: PurchaseRequest | dict) -> Procure
         risk_profile = assess_risk(request.vendor_id)
         rationale_points.append(
             "Risk check: "
-            f"level={risk_profile.risk_level}, "
-            f"contract_status={risk_profile.contract_status}, "
-            f"compliance_flag={risk_profile.compliance_flag}"
+            f"level={risk_profile['risk_level']}, "
+            f"contract_status={risk_profile['contract_status']}, "
+            f"compliance_flag={risk_profile['compliance_flag']}"
         )
-        if risk_profile.risk_level == "critical":
+        if risk_profile["risk_level"] == "critical":
             escalate_signals.append("critical vendor risk profile")
     except Exception as exc:
         escalate_signals.append("risk assessment check failed")

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from data.loader import load_vendors
-from models import VendorRiskProfile
 
 
 def _compute_risk_level(compliance_flag: bool, contract_status: str) -> str:
@@ -14,7 +13,9 @@ def _compute_risk_level(compliance_flag: bool, contract_status: str) -> str:
     return "low"
 
 
-def assess_risk(vendor_id: str) -> VendorRiskProfile:
+def assess_risk(vendor_id: str) -> dict[str, str | bool]:
+    """Assess vendor risk based on compliance and contract status."""
+
     vendors = load_vendors()
     vendor = next((item for item in vendors if item.get("vendor_id") == vendor_id), None)
 
@@ -25,9 +26,9 @@ def assess_risk(vendor_id: str) -> VendorRiskProfile:
     contract_status = str(vendor.get("contract_status", "none")).strip().lower()
     risk_level = _compute_risk_level(compliance_flag=compliance_flag, contract_status=contract_status)
 
-    return VendorRiskProfile(
-        vendor_id=vendor_id,
-        compliance_flag=compliance_flag,
-        contract_status=contract_status,
-        risk_level=risk_level,
-    )
+    return {
+        "vendor_id": vendor_id,
+        "compliance_flag": compliance_flag,
+        "contract_status": contract_status,
+        "risk_level": risk_level,
+    }
