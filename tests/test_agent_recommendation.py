@@ -165,10 +165,10 @@ def test_system_prompt_includes_rationale_template_requirements() -> None:
     prompt = agent.SYSTEM_PROMPT
 
     assert "Rationale template requirements" in prompt
-    assert "2 to 4 complete sentences" in prompt
+    assert "exactly 4 complete sentences" in prompt
     assert "no bullet points" in prompt
-    assert "name the specific check or checks" in prompt
-    assert "relevant amounts, vendor names, or policy IDs" in prompt
+    assert "Driving checks" in prompt
+    assert "relevant amounts, vendor names, and policy IDs" in prompt
 
 
 @pytest.mark.skipif(
@@ -191,5 +191,5 @@ def test_live_agent_rationale_template_req_009() -> None:
 
     assert recommendation.decision == "deny"
     assert "POL-004" in rationale
-    assert 2 <= len(sentences) <= 4
+    assert len(sentences) == 4
     assert all(re.search(r"[.!?]$", sentence) for sentence in sentences)
