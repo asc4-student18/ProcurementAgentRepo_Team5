@@ -2,3 +2,6 @@
 .env.local
 .env.example
 scratch_test.py
+__pycache__/
+*.py[cod]
+*/__pycache__/
