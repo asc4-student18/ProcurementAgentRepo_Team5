@@ -15,10 +15,10 @@ and the test suite is passing.
 
 | Field | Value |
 |-------|-------|
-| Last stable commit hash | [run: `git log --oneline -1`] |
-| Last stable tag / version | [fill in if tagged; otherwise use commit hash] |
-| Date of last stable state | |
-| Verified by | |
+| Last stable commit hash | 28c221b |
+| Last stable tag / version | 28c221b |
+| Date of last stable state | 2026-06-24 |
+| Verified by | Priya Sinha |
 
 ---
 
@@ -129,9 +129,9 @@ pipeline, list the consumers here and notify them before reverting:
 
 | Role | Name | Contact |
 |------|------|---------|
-| Release Manager / Decision Maker | | |
-| Technical Lead | | |
-| Instructor / Supervisor | | |
+| Group Member | Priya Sinha | 99999999999 |
+| Group Member | Lahari Saddala | 8888888888 |
+| Group Member | Kuntal Dubey | 7777777777 |
 
 ---
 
