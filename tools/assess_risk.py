@@ -1,6 +1,21 @@
 from __future__ import annotations
 
-from data.loader import load_vendors
+from typing import Any
+
+from data import loader
+
+
+def _error_result(vendor_id: str, code: str, message: str) -> dict[str, Any]:
+    return {
+        "vendor_id": vendor_id,
+        "compliance_flag": False,
+        "contract_status": "unknown",
+        "risk_level": "unknown",
+        "error": {
+            "code": code,
+            "message": message,
+        },
+    }
 
 
 def _compute_risk_level(compliance_flag: bool, contract_status: str) -> str:
@@ -13,14 +28,22 @@ def _compute_risk_level(compliance_flag: bool, contract_status: str) -> str:
     return "low"
 
 
-def assess_risk(vendor_id: str) -> dict[str, str | bool]:
+def assess_risk(vendor_id: str) -> dict[str, Any]:
     """Assess vendor risk based on compliance and contract status."""
 
-    vendors = load_vendors()
+    try:
+        vendors = loader.load_vendors()
+    except FileNotFoundError as exc:
+        return _error_result(vendor_id, "DATA_FILE_NOT_FOUND", f"Data loading failure: {exc}")
+    except KeyError as exc:
+        return _error_result(vendor_id, "DATA_SCHEMA_ERROR", f"Data schema failure: missing key {exc}")
+    except Exception as exc:
+        return _error_result(vendor_id, "RISK_ASSESSMENT_ERROR", f"Unexpected risk check failure: {exc}")
+
     vendor = next((item for item in vendors if item.get("vendor_id") == vendor_id), None)
 
     if vendor is None:
-        raise ValueError(f"Unknown vendor_id: {vendor_id}")
+        return _error_result(vendor_id, "VENDOR_NOT_FOUND", f"Unknown vendor_id: {vendor_id}")
 
     compliance_flag = bool(vendor.get("compliance_flag", False))
     contract_status = str(vendor.get("contract_status", "none")).strip().lower()
@@ -31,4 +54,5 @@ def assess_risk(vendor_id: str) -> dict[str, str | bool]:
         "compliance_flag": compliance_flag,
         "contract_status": contract_status,
         "risk_level": risk_level,
+        "error": None,
     }

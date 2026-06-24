@@ -2,13 +2,31 @@ from __future__ import annotations
 
 from typing import Any
 
-from data.loader import load_policies, load_vendors
+from data import loader
+
+
+def _error_result(vendor_id: str, purchase_category: str | None, code: str, message: str) -> dict[str, Any]:
+    return {
+        "requested_vendor_id": vendor_id,
+        "purchase_category": (purchase_category or "").strip().lower(),
+        "policy_id": "POL-001",
+        "threshold_amount": None,
+        "has_active_contract_conflict": False,
+        "deny_triggered": False,
+        "conflicting_vendor_ids": [],
+        "conflicting_contracts": [],
+        "message": "Vendor duplication check failed.",
+        "error": {
+            "code": code,
+            "message": message,
+        },
+    }
 
 
 def _get_pol001() -> tuple[float, set[str]]:
     """Return POL-001 threshold and affected categories."""
 
-    policies = load_policies()
+    policies = loader.load_policies()
     for policy in policies:
         if policy.get("policy_id") == "POL-001":
             threshold = float(policy.get("threshold_amount", 25000.0))
@@ -53,12 +71,40 @@ def check_vendor_duplication(
 
     effective_category = purchase_category if purchase_category is not None else category
     if effective_category is None:
-        raise ValueError("purchase_category is required")
+        return _error_result(
+            vendor_id,
+            effective_category,
+            "MISSING_CATEGORY",
+            "purchase_category is required",
+        )
+
     normalized_category = effective_category.strip().lower()
 
-    effective_amount = total_amount if total_amount is not None else requested_amount
-    vendors = load_vendors()
-    threshold_amount, affected_categories = _get_pol001()
+    try:
+        effective_amount = total_amount if total_amount is not None else requested_amount
+        vendors = loader.load_vendors()
+        threshold_amount, affected_categories = _get_pol001()
+    except FileNotFoundError as exc:
+        return _error_result(
+            vendor_id,
+            effective_category,
+            "DATA_FILE_NOT_FOUND",
+            f"Data loading failure: {exc}",
+        )
+    except KeyError as exc:
+        return _error_result(
+            vendor_id,
+            effective_category,
+            "DATA_SCHEMA_ERROR",
+            f"Data schema failure: missing key {exc}",
+        )
+    except Exception as exc:
+        return _error_result(
+            vendor_id,
+            effective_category,
+            "VENDOR_DUPLICATION_ERROR",
+            f"Unexpected vendor duplication failure: {exc}",
+        )
 
     requested_vendor = next(
         (item for item in vendors if str(item.get("vendor_id", "")) == vendor_id),
@@ -113,4 +159,5 @@ def check_vendor_duplication(
         "conflicting_vendor_ids": [item["vendor_id"] for item in conflicting_contracts],
         "conflicting_contracts": conflicting_contracts,
         "message": message,
+        "error": None,
     }

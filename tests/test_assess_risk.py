@@ -1,5 +1,3 @@
-import pytest
-
 from tools.assess_risk import assess_risk
 
 
@@ -37,5 +35,9 @@ def test_assess_risk_critical_for_compliance_flagged_vendor() -> None:
 
 
 def test_assess_risk_unknown_vendor_raises_value_error() -> None:
-    with pytest.raises(ValueError, match="Unknown vendor_id"):
-        assess_risk("V-999")
+    result = assess_risk("V-999")
+
+    assert result["vendor_id"] == "V-999"
+    assert result["risk_level"] == "unknown"
+    assert result["error"] is not None
+    assert result["error"]["code"] == "VENDOR_NOT_FOUND"

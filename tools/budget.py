@@ -2,7 +2,19 @@ from __future__ import annotations
 
 from typing import Any
 
-from data.loader import load_budgets
+from data import loader
+
+
+def _error_result(code: str, message: str) -> dict[str, Any]:
+    return {
+        "within_budget": False,
+        "remaining_budget": None,
+        "overage": None,
+        "error": {
+            "code": code,
+            "message": message,
+        },
+    }
 
 
 def check_budget(cost_center_id: str, requested_amount: float) -> dict[str, Any]:
@@ -20,22 +32,25 @@ def check_budget(cost_center_id: str, requested_amount: float) -> dict[str, Any]
         - error: None on success; structured lookup failure details when not found.
     """
 
-    budgets = load_budgets()
+    try:
+        budgets = loader.load_budgets()
+    except FileNotFoundError as exc:
+        return _error_result("DATA_FILE_NOT_FOUND", f"Data loading failure: {exc}")
+    except KeyError as exc:
+        return _error_result("DATA_SCHEMA_ERROR", f"Data schema failure: missing key {exc}")
+    except Exception as exc:
+        return _error_result("BUDGET_CHECK_ERROR", f"Unexpected budget check failure: {exc}")
+
     match = next(
         (item for item in budgets if str(item.get("cost_center_id", "")) == cost_center_id),
         None,
     )
 
     if match is None:
-        return {
-            "within_budget": False,
-            "remaining_budget": None,
-            "overage": None,
-            "error": {
-                "code": "COST_CENTER_NOT_FOUND",
-                "message": f"Unknown cost center: {cost_center_id}",
-            },
-        }
+        return _error_result(
+            "COST_CENTER_NOT_FOUND",
+            f"Unknown cost center: {cost_center_id}",
+        )
 
     remaining_budget = float(match.get("remaining", 0.0))
     within_budget = requested_amount <= remaining_budget
