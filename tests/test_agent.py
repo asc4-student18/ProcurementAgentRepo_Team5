@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from types import SimpleNamespace
+
+import pytest
+
 from agent import generate_recommendation
 from data.loader import load_requests
 from models import PurchaseRequest
@@ -9,6 +13,38 @@ def _get_request_by_id(request_id: str) -> PurchaseRequest:
     requests = load_requests()
     request = next(request for request in requests if request["request_id"] == request_id)
     return PurchaseRequest.model_validate(request)
+
+
+def _get_request_record_by_id(request_id: str) -> dict[str, object]:
+    requests = load_requests()
+    return next(request for request in requests if request["request_id"] == request_id)
+
+
+@pytest.mark.parametrize(
+    "request_id",
+    [
+        "REQ-006",
+        "REQ-007",
+        "REQ-008",
+        "REQ-009",
+        "REQ-010",
+        "REQ-011",
+        "REQ-001",
+        "REQ-002",
+        "REQ-003",
+    ],
+)
+def test_agent_decision_matches_expected_outcome_for_sample_requests(
+    request_id: str,
+) -> None:
+    request_record = _get_request_record_by_id(request_id)
+    request_model = PurchaseRequest.model_validate(request_record)
+
+    result = SimpleNamespace(data=generate_recommendation(request_model))
+
+    assert request_record["expected_outcome"] == result.data.decision
+    assert isinstance(result.data.rationale, str)
+    assert result.data.rationale.strip()
 
 
 def test_agent_approve_req_001() -> None:
