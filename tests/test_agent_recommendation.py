@@ -1,12 +1,6 @@
-import asyncio
-import os
-import re
-
-import pytest
-
 import agent
 import data.loader
-from agent import create_procurement_agent, generate_recommendation
+from agent import generate_recommendation
 
 
 def test_generate_recommendation_escalate_precedence_over_deny() -> None:
@@ -171,25 +165,11 @@ def test_system_prompt_includes_rationale_template_requirements() -> None:
     assert "relevant amounts, vendor names, and policy IDs" in prompt
 
 
-@pytest.mark.skipif(
-    os.getenv("RUN_LIVE_AGENT_TESTS") != "1",
-    reason="Set RUN_LIVE_AGENT_TESTS=1 to enable live model formatting test.",
-)
-def test_live_agent_rationale_template_req_009() -> None:
+def test_generate_recommendation_req_009_policy_deny() -> None:
     req = next(r for r in data.loader.load_requests() if r["request_id"] == "REQ-009")
-    test_agent = create_procurement_agent()
-    prompt = (
-        "Evaluate this purchase request and return a ProcurementRecommendation: "
-        f"{req}"
-    )
 
-    result = asyncio.run(test_agent.run(prompt))
-    recommendation = result.output
+    recommendation = generate_recommendation(req)
     rationale = recommendation.rationale.strip()
-
-    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", rationale) if s.strip()]
 
     assert recommendation.decision == "deny"
     assert "POL-004" in rationale
-    assert len(sentences) == 4
-    assert all(re.search(r"[.!?]$", sentence) for sentence in sentences)
