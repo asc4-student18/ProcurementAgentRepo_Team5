@@ -2,6 +2,7 @@
 
 ### Requirement: Data loader SHALL provide canonical access to mock datasets
 The system SHALL provide loader functions in `data/loader.py` to retrieve budgets, vendors, policies, and sample requests used by tools and tests.
+The loader implementation SHALL use a database-backed access path for runtime reads and preserve dataset record ordering.
 
 #### Scenario: Loader returns budgets data
 - **WHEN** budget data is requested through the loader
@@ -10,6 +11,10 @@ The system SHALL provide loader functions in `data/loader.py` to retrieve budget
 #### Scenario: Loader returns policies and vendor data
 - **WHEN** policy and vendor datasets are requested
 - **THEN** the loader SHALL return structured records preserving policy identifiers, thresholds, contract status, and compliance flags
+
+#### Scenario: Loader reads from database-backed store
+- **WHEN** any loader function is called at runtime
+- **THEN** records SHALL be served from the database-backed store rather than directly reading `mock_data/*.json`
 
 ### Requirement: Tools and tests MUST use loader abstraction only
 Tool implementations and tests MUST access mock procurement data via `data/loader.py` and MUST NOT read files in `mock_data/` directly.

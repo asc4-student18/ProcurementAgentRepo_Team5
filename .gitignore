@@ -5,3 +5,4 @@ scratch_test.py
 __pycache__/
 *.py[cod]
 */__pycache__/
+data/procurement_data.sqlite3

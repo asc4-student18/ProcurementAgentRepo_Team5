@@ -43,3 +43,25 @@ The Pydantic AI agent SHALL be configured with `output_type=ProcurementRecommend
 #### Scenario: Structured output returned
 - **WHEN** the agent completes recommendation generation
 - **THEN** `result.data` SHALL be a validated `ProcurementRecommendation` instance rather than a raw string or untyped dict
+
+### Requirement: A second agent SHALL draft requestor email replies from recommendation output
+The system SHALL provide a second Pydantic AI agent that accepts request context and a `ProcurementRecommendation`, and returns a structured `RequestorEmailDraft`.
+
+#### Scenario: Email draft uses recommendation context
+- **WHEN** a recommendation is produced for a purchase request
+- **THEN** the email drafting agent SHALL receive the request details, decision, confidence score, and rationale in its prompt context
+
+#### Scenario: Chained execution runs recommendation before email drafting
+- **WHEN** the chained orchestration flow is invoked
+- **THEN** recommendation generation SHALL execute first and email drafting SHALL execute second using the generated recommendation
+
+### Requirement: Recommendation flow SHALL support incremental rationale streaming
+The system SHALL expose a streaming recommendation path using the Pydantic AI streaming API so rationale text can be emitted incrementally for large or complex requests.
+
+#### Scenario: Streaming emits rationale chunks during generation
+- **WHEN** the caller invokes the streaming recommendation path for a valid request
+- **THEN** rationale text SHALL be yielded in incremental chunks before final completion
+
+#### Scenario: Streaming path still returns structured recommendation
+- **WHEN** streaming generation completes
+- **THEN** the final output SHALL still validate as `ProcurementRecommendation`

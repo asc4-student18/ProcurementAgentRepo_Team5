@@ -20,6 +20,11 @@ def _get_request_record_by_id(request_id: str) -> dict[str, object]:
     return next(request for request in requests if request["request_id"] == request_id)
 
 
+def _assert_valid_confidence(value: float) -> None:
+    assert isinstance(value, float)
+    assert 0.0 <= value <= 1.0
+
+
 @pytest.mark.parametrize(
     "request_id",
     [
@@ -45,6 +50,7 @@ def test_agent_decision_matches_expected_outcome_for_sample_requests(
     assert request_record["expected_outcome"] == result.data.decision
     assert isinstance(result.data.rationale, str)
     assert result.data.rationale.strip()
+    _assert_valid_confidence(result.data.confidence_score)
 
 
 def test_agent_approve_req_001() -> None:
@@ -55,6 +61,7 @@ def test_agent_approve_req_001() -> None:
     assert result.decision == "approve"
     assert isinstance(result.rationale, str)
     assert result.rationale.strip()
+    _assert_valid_confidence(result.confidence_score)
 
 
 def test_agent_deny_req_006_budget_overage() -> None:
@@ -65,6 +72,7 @@ def test_agent_deny_req_006_budget_overage() -> None:
     assert result.decision == "deny"
     assert isinstance(result.rationale, str)
     assert result.rationale.strip()
+    _assert_valid_confidence(result.confidence_score)
 
 
 def test_agent_policy_deny_req_009_catering_prohibition() -> None:
@@ -75,6 +83,7 @@ def test_agent_policy_deny_req_009_catering_prohibition() -> None:
     assert result.decision == "deny"
     assert isinstance(result.rationale, str)
     assert result.rationale.strip()
+    _assert_valid_confidence(result.confidence_score)
 
 
 def test_agent_escalate_req_011_compliance_flagged_vendor() -> None:
@@ -85,3 +94,4 @@ def test_agent_escalate_req_011_compliance_flagged_vendor() -> None:
     assert result.decision == "escalate"
     assert isinstance(result.rationale, str)
     assert result.rationale.strip()
+    _assert_valid_confidence(result.confidence_score)

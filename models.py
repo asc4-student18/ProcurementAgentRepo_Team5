@@ -48,10 +48,25 @@ class ProcurementRecommendation(BaseModel):
 
     decision: Literal["approve", "deny", "escalate"]
     rationale: str
+    confidence_score: float = Field(ge=0.0, le=1.0)
 
     @field_validator("rationale")
     @classmethod
     def rationale_must_be_non_empty(cls, value: str) -> str:
         if not value.strip():
             raise ValueError("rationale must be non-empty")
+        return value
+
+
+class RequestorEmailDraft(BaseModel):
+    """Structured outbound email draft for the purchase requestor."""
+
+    subject: str
+    body: str
+
+    @field_validator("subject", "body")
+    @classmethod
+    def fields_must_be_non_empty(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("email field must be non-empty")
         return value

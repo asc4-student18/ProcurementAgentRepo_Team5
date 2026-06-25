@@ -33,12 +33,27 @@ The model SHOULD validate that `total_amount` equals `quantity * unit_price` wit
 - **THEN** the request MUST be rejected as schema-invalid
 
 ### Requirement: Recommendation output schema SHALL constrain decision values
-The system SHALL define a `ProcurementRecommendation` model where `decision` MUST be one of `approve`, `deny`, or `escalate`, and `rationale` MUST be a non-empty string.
+The system SHALL define a `ProcurementRecommendation` model where `decision` MUST be one of `approve`, `deny`, or `escalate`, `rationale` MUST be a non-empty string, and `confidence_score` MUST be a float in the inclusive range `[0.0, 1.0]`.
 
 #### Scenario: Valid recommendation produced
-- **WHEN** the agent returns a recommendation with an allowed decision and non-empty rationale
+- **WHEN** the agent returns a recommendation with an allowed decision, non-empty rationale, and confidence between `0.0` and `1.0` inclusive
 - **THEN** the output SHALL validate as `ProcurementRecommendation`
 
 #### Scenario: Invalid decision prevented
 - **WHEN** recommendation generation attempts to emit a decision outside `approve`/`deny`/`escalate`
 - **THEN** output validation SHALL fail and the invalid response SHALL not be accepted as final output
+
+#### Scenario: Out-of-range confidence prevented
+- **WHEN** recommendation generation attempts to emit confidence below `0.0` or above `1.0`
+- **THEN** output validation SHALL fail and the invalid response SHALL not be accepted as final output
+
+### Requirement: Requestor email draft output schema SHALL enforce non-empty fields
+The system SHALL define a `RequestorEmailDraft` model where `subject` and `body` MUST both be non-empty strings.
+
+#### Scenario: Valid email draft produced
+- **WHEN** the email drafting flow returns a subject and body with content
+- **THEN** the output SHALL validate as `RequestorEmailDraft`
+
+#### Scenario: Empty subject or body rejected
+- **WHEN** email drafting attempts to emit a blank subject or body
+- **THEN** output validation SHALL fail and the invalid draft SHALL not be accepted
