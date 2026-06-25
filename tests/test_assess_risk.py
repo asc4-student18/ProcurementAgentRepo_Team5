@@ -38,6 +38,7 @@ def test_assess_risk_unknown_vendor_raises_value_error() -> None:
     result = assess_risk("V-999")
 
     assert result["vendor_id"] == "V-999"
-    assert result["risk_level"] == "unknown"
+    assert result["contract_status"] == "none"
+    assert result["risk_level"] == "medium"
     assert result["error"] is not None
     assert result["error"]["code"] == "VENDOR_NOT_FOUND"

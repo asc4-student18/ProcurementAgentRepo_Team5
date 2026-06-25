@@ -6,11 +6,16 @@ from data import loader
 
 
 def _error_result(vendor_id: str, code: str, message: str) -> dict[str, Any]:
+    # Use conservative but valid fallback values so risk_level always remains in
+    # the allowed set (low/medium/high/critical) for any vendor ID.
+    contract_status = "none"
+    compliance_flag = False
+    risk_level = _compute_risk_level(compliance_flag=compliance_flag, contract_status=contract_status)
     return {
         "vendor_id": vendor_id,
-        "compliance_flag": False,
-        "contract_status": "unknown",
-        "risk_level": "unknown",
+        "compliance_flag": compliance_flag,
+        "contract_status": contract_status,
+        "risk_level": risk_level,
         "error": {
             "code": code,
             "message": message,
